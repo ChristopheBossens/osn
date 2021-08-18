@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Campaign::class, 'owner_id')->get();
     }
+
+    public function messages()
+    {
+        return $this->hasMany(CampaignMessage::class, 'created_by')->get();
+    }
 }

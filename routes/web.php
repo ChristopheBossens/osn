@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\CampaignMessageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,5 +23,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [CampaignCont
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('campaigns', CampaignController::class);
+    Route::resource('campaigns.messages', CampaignMessageController::class);
 });
 

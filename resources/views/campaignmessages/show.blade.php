@@ -8,7 +8,7 @@
     <div class="container" style="background-color: white">
         <div class="row">
             <div class="col-12">
-                <a href="{{ route('campaigns.messages.create', $campaign->id) }}" class="btn btn-outline-success">Create new message</a>
+
             </div>
         </div>
     </div>

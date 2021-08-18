@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Campaign extends Model
+class CampaignMessage extends Model
 {
     use HasFactory;
 
@@ -16,20 +16,18 @@ class Campaign extends Model
     protected $guarded = ['id'];
 
     /**
-     * Returns the user who owns/created the campaign
+     * Get the campaign to which the message belongs
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'owner_id')->get();
+    public function campaign(){
+        return $this->belongsTo(Campaign::class)->get();
     }
 
     /**
-     * Returns the messages within this campaign
+     * Returns the user who created the message
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function messages()
-    {
-        return $this->hasMany(CampaignMessage::class)->get();
+    public function creator(){
+        return $this->belongsTo(User::class, 'created_by')->get();
     }
 }
