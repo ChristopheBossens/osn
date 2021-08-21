@@ -24,5 +24,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [CampaignCont
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('campaigns', CampaignController::class);
     Route::resource('campaigns.messages', CampaignMessageController::class);
+
+    Route::get('/scrape', [CampaignMessageController::class, 'scrapeWeblink'])->name('scrape');
 });
 

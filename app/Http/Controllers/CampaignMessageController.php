@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\CampaignMessage;
 use Illuminate\Http\Request;
+use spekulatius\phpscraper;
 
 class CampaignMessageController extends Controller
 {
@@ -82,5 +83,17 @@ class CampaignMessageController extends Controller
     public function destroy(CampaignMessage $campaignMessage)
     {
         //
+    }
+
+
+    public function scrapeWeblink(Request $request)
+    {
+        $web = new phpscraper();
+        $web->go($request['url']);
+
+        return json_encode([
+            'twitterCard' => $web->twitterCard,
+            'openGraph'=> $web->openGraph
+        ]);
     }
 }
