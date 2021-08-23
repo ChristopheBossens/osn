@@ -35,9 +35,19 @@ class CampaignMessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Campaign $campaign, Request $request)
     {
-        //
+        $validated = $request->validate([
+            'url' => 'required|url'
+        ]);
+
+        $campaignMessage = new CampaignMessage($validated);
+        $campaignMessage->campaign_id = $campaign->id;
+        $campaignMessage->created_by = Auth()->user()->id;
+
+        $campaignMessage->save();
+
+        return redirect(route('campaigns.show', $campaign->id));
     }
 
     /**

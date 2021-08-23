@@ -18,12 +18,6 @@ class CreateCampaignMessagesTable extends Migration
             $table->unsignedBigInteger('campaign_id');
             $table->unsignedBigInteger('created_by');
             $table->mediumText('url');
-            $table->mediumText('og_title');
-            $table->mediumText('og_description');
-            $table->mediumText('og_url');
-            $table->mediumText('og_image');
-            $table->mediumText('twitter_description');
-            $table->mediumText('facebook_description');
             $table->timestamps();
         });
     }

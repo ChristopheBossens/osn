@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __('Dashboard') }} >> Edit campaign
-        </h2>
+        <h5 class="h5 font-weight-bold">
+            <a href="{{ route('dashboard') }}">Campaign dashboard</a> / Edit campaign
+        </h5>
     </x-slot>
 
-    <div class="container" style="background-color: white">
+    <div class="container pb-5" style="background-color: white">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 pt-3">
 
                 <form action="{{ route('campaigns.update', $campaign->id) }}" method="POST">
                     @csrf

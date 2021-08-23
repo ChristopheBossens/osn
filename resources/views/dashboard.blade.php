@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __('Dashboard') }}
-        </h2>
+        <h5 class="h5 font-weight-bold">
+            Campaign dashboard
+        </h5>
     </x-slot>
 
     <div class="container pb-5" style="background-color: white">
         <div class="row">
             <div class="col-12 text-center pt-3">
-                <h4>Campaign overview</h4>
+                <h4>My campaigns</h4>
                 <hr>
             </div>
         </div>
@@ -32,7 +32,10 @@
                         @foreach($campaigns as $campaign)
                         <tr>
                             <td>{{ $campaign->title }}</td>
-                            <td style="text-align: right"><a class="btn btn-sm btn-outline-success" href="{{ route('campaigns.show', $campaign->id) }}">Go to campaign</a></td>
+                            <td style="text-align: right">
+                                <a class="btn btn-sm btn-outline-primary" href="{{ route('campaigns.edit', $campaign->id) }}">Edit info</a>
+                                <a class="btn btn-sm btn-outline-success" href="{{ route('campaigns.show', $campaign->id) }}">Go to campaign</a>
+                            </td>
                         </tr>
                         @endforeach
                         </tbody>

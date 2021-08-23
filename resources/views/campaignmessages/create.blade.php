@@ -1,15 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a> >> <a href="{{route('campaigns.show', $campaign->id)}}">{{ $campaign->title }}</a> >> Create new message
-        </h2>
+        <h5 class="h5 font-weight-bold">
+            <a href="{{ route('dashboard') }}">Campaign dashboard</a> / <a href="{{route('campaigns.show', $campaign->id)}}">{{ $campaign->title }}</a> / Create new message
+        </h5>
     </x-slot>
 
-    <div class="container" style="background-color: white">
+    <div class="container pb-5" style="background-color: white">
         <div class="row">
-            <div class="col-12 my-2">
-                <form>
-
+            <div class="col-12 pt-3">
+                <form action="{{ route('campaigns.messages.store', $campaign->id) }}" method="POST" id="campaignMessageForm">
+                    @csrf
                     <div class="form-group">
                         <label for="urlInput">Enter the url of the link you want to share</label>
                         <input type="url" name="url" id="urlInput" class="form-control" required>
@@ -29,6 +29,7 @@
                         </button>
                     </div>
                 </form>
+                <hr>
             </div>
         </div>
         <div class="row justify-content-between pb-3">
@@ -52,7 +53,7 @@
                     <img id="twitter_image" class="card-img-top" src="" alt="Facebook preview image" style="border-top-right-radius: .85714em; border-top-left-radius: .85714em;">
                     <div class="card-body pb-2" style="background-color: #ffffff; border-bottom-left-radius: .85714em; border-bottom-right-radius: .85714em; border: 1px solid #E1E8ED">
                         <h2 id="twitter_title" style='font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: 700; font-size: 1em; color: #000000'></h2>
-                        <div id="twitter_description" style='font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; color: #000000; font-size: 14px; max--height: 2.6em;'></div>
+                        <div id="twitter_description" style='font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; color: #000000; font-size: 14px; max-height: 2.6em;'></div>
                         <div class="pt-2" id="twitter_site" style='font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; color: #8899a6; font-size: 12px'></div>
                     </div>
                 </div>
@@ -62,7 +63,7 @@
             <div class="col-12">
                 <hr>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-outline-success" disabled>Create new message</button>
+                    <button type="submit" class="btn btn-outline-success" disabled id="createMessageButton" onclick="document.getElementById('campaignMessageForm').submit()">Create new message</button>
                 </div>
             </div>
         </div>
@@ -74,6 +75,7 @@
             let generatePreviewButton = document.getElementById('generatePreviewButton');
             let previewButtonLoading = document.getElementById('previewButtonLoading');
             let previewButtonReady  = document.getElementById('previewButtonReady');
+            let createMessageButton = document.getElementById('createMessageButton');
 
             const SCRAPEROUTE = '{{ route('scrape', 'url=:url') }}';
 
@@ -113,8 +115,13 @@
 
                         generateFacebookPreview(json['openGraph']);
                         generateTwitterPreview(json['twitterCard']);
-                    })
 
+                        if ((validateTags(requiredTwitterTags, json['twitterCard']).length === 0) && validateTags(requiredFacebookTags, json['openGraph']).length === 0){
+                            createMessageButton.disabled = false;
+                        } else {
+                            createMessageButton.disabled = true;
+                        }
+                    })
             }
 
             const requiredFacebookTags = ['og:title', 'og:description', 'og:image', 'og:site_name'];
@@ -215,6 +222,7 @@
                 twitterUrl.innerHTML = tags['twitter:site'];
 
                 twitterPreviewCard.classList.remove('d-none');
+                invalidTwitterParameters.classList.add('d-none');
                 console.log('twitter tags', tags);
             }
 
